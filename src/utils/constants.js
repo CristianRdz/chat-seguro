@@ -1,6 +1,6 @@
 // Obtenemos la url de la api
-const API_URL = "http://localhost:8000";
-const API_URL_WS = "ws://localhost:8000";
+const API_URL = "http://129.146.111.32:3001";
+const API_URL_WS = "ws://129.146.111.32:3001";
 // exportamos las constantes
 
 function cifradoCesar(clave, textoParaCifrar) {
