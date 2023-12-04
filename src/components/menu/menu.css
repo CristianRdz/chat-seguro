@@ -64,4 +64,24 @@ body {
       border-bottom: 1px solid #dee2e6;
     }
   }
+
+  .own-message {
+    background-color: #3498db; /* Color de fondo azul */
+    color: #fff; /* Color del texto blanco */
+    float: right; /* Mueve el mensaje a la derecha */
+    clear: both; /* Evita que los mensajes se superpongan */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    margin: 5px 10px 5px 0; /* Márgenes */
+  }
   
+  /* Estilo para los mensajes de otros usuarios (burbuja gris a la izquierda) */
+  .other-message {
+    background-color: #ecf0f1; /* Color de fondo gris */
+    color: #333; /* Color del texto negro */
+    float: left; /* Mueve el mensaje a la izquierda */
+    clear: both; /* Evita que los mensajes se superpongan */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    margin: 5px 0 5px 10px; /* Márgenes */
+  }

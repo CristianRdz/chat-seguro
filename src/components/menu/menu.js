@@ -42,7 +42,7 @@ const MainMenu = () => {
     // se ejecuta la función para enviar constantemente peticiones al servidor
     sendConstante();
   }
- 
+
   const handleSendMessage = async (chatId, message, key) => {
     try {
       const messageToSend = {
@@ -110,87 +110,122 @@ const MainMenu = () => {
 
   return (
     <div className="bg-light mb-5">
-    <section className="d-flex align-items-center">
-      <Container fluid className="position-relative">
-        <Card className="shadow-lg border-0 rounded-lg mt-5 chat-container">
-          <Card.Body className="p-5">
-            <h1 className="fs-4 mb-4 text-center">Chats</h1>
-            <Row>
-              <Col xs={12} md={4}>
-                <div className="chat-list">
-                  {chats ? (
-                    chats.map((chat) => (
-                      <div
-                        key={chat._id}
-                        className={`chat-item ${
-                          activeChat && activeChat._id === chat._id
-                            ? "active"
-                            : ""
-                        }`}
-                        onClick={() => setActiveChat(chat)}
-                      >
-                        {chat.usernameFrom === userInfo.username
-                          ? `Chat con ${chat.usernameTo}`
-                          : `Chat con ${chat.usernameFrom}`}
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-center">Cargando...</div>
-                  )}
-                </div>
-              </Col>
-              <Col xs={12} md={8}>
-                {activeChat && (
-                  <div className="chat-box">
-                    {activeChat.messages ? (
-                      activeChat.messages.map((message, index) => (
-                        <div key={index} className="message">
-                          <strong>{message.username}:</strong>{" "}
-                          <small className="text-muted ms-2">
-                            {new Date(message.timestamp).toLocaleString()}
-                          </small>
-                          <br />
-                          {message.message}
+      <section className="d-flex align-items-center">
+        <Container fluid className="position-relative">
+          <Card className="shadow-lg border-0 rounded-lg mt-5 chat-container">
+            <Card.Body className="p-5">
+              <h1 className="fs-4 mb-4 text-center">Chats</h1>
+              <Row>
+                <Col xs={12} md={4}>
+                  <div className="chat-list">
+                    {chats ? (
+                      chats.map((chat) => (
+                        <div
+                          key={chat._id}
+                          className={`chat-item ${
+                            activeChat && activeChat._id === chat._id
+                              ? "active"
+                              : ""
+                          }`}
+                          onClick={() => setActiveChat(chat)}
+                        >
+                          {chat.usernameFrom === userInfo.username
+                            ? `Chat con ${chat.usernameTo}`
+                            : `Chat con ${chat.usernameFrom}`}
                         </div>
                       ))
                     ) : (
-                      <div className="text-center">No hay mensajes</div>
+                      <div className="text-center">Cargando...</div>
+                    )}
+                    <div>
+                      <hr />
+                      <h6 className="text-center">Usuarios sin chat</h6>
+                    </div>
+                    {NoChats ? (
+                      NoChats.map((noChat) => (
+                        <div
+                          key={noChat._id}
+                          className={`chat-item ${
+                            activeChat && activeChat._id === noChat._id
+                              ? "active"
+                              : ""
+                          }`}
+                          onClick={() => createChat(noChat.username)}
+                        >
+                          {`Iniciar chat con ${noChat.username}`}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center">Cargando...</div>
                     )}
                   </div>
-                )}
-                {activeChat && (
-                  <Form className="mt-3">
-                    <Form.Group controlId="newMessage">
-                      <Form.Control
-                        type="text"
-                        placeholder="Escribe tu mensaje..."
-                        value={mensaje}
-                        onChange={(e) => setMensaje(e.target.value)}
-                      />
-                    </Form.Group>
-                    <Button
-                      variant="primary m-2"
-                      onClick={async () =>
-                        await handleSendMessage(
-                          activeChat._id,
-                          mensaje,
-                          activeChat.key
-                        )
-                      }
-                      disabled={isLoading}
-                      className="send-button"
+                </Col>
+                <Col xs={12} md={8}>
+                  {activeChat && (
+                    <div className="chat-box">
+                      {activeChat.messages ? (
+                        activeChat.messages.map((message, index) => (
+                          <div
+                            key={index}
+                            className={`message ${
+                              message.username === userInfo.username
+                                ? "own-message"
+                                : "other-message"
+                            }`}
+                          >
+                            <strong>{message.username}:</strong>{" "}
+                            <small className="text-muted ms-2">
+                              {new Date(message.timestamp).toLocaleString()}
+                            </small>
+                            <br />
+                            {message.message}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center">No hay mensajes</div>
+                      )}
+                    </div>
+                  )}
+
+                  {activeChat && (
+                    <Form
+                      className="mt-3"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                     >
-                      Enviar <Send />
-                    </Button>
-                  </Form>
-                )}
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
-      </Container>
-    </section>
-  </div>
+                      <Form.Group controlId="newMessage">
+                        <Form.Control
+                          type="text"
+                          placeholder="Escribe tu mensaje..."
+                          value={mensaje}
+                          onChange={(e) => setMensaje(e.target.value)}
+                        />
+                      </Form.Group>
+                      <Button
+                        type="submit"
+                        variant="primary m-2"
+                        onClick={async () =>
+                          await handleSendMessage(
+                            activeChat._id,
+                            mensaje,
+                            activeChat.key
+                          )
+                        }
+                        disabled={isLoading}
+                        className="send-button"
+                      >
+                        Enviar <Send />
+                      </Button>
+                    </Form>
+                  )}
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </Container>
+      </section>
+    </div>
   );
 };
 
